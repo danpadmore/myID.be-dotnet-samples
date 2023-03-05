@@ -1,0 +1,58 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Web (server side) | myID.be samples</title>
+    <link rel="stylesheet" type="text/css" href="https://myid.be//css/site/site.css?v=GTxp2DXrrqgwncHZTiMPEwR1w8U7DuXHr5-XbH-T4D0">
+</head>
+<body>
+    <h1>myID.be - samples</h1>
+    <h2>Web (server side)</h2>
+
+    <form id="form">
+        <div>
+            <label for="response_type">response_type</label>
+            <input name="response_type" type="text" readonly value="code" />
+        </div>
+        <div>
+            <label for="client_id">client_id</label>
+            <input name="client_id" type="text" value="{{client_id}}" />
+        </div>
+        <div>
+        <div>
+            <label for="redirect_uri">redirect_uri</label>
+            <input name="redirect_uri" type="text" value="{{redirect_uri}}" />
+        </div>
+            <label for="state">state</label>
+            <input name="state" type="text" value="{{state}}" />
+        </div>
+        <div>
+            <label for="scope">scope</label> <span>(See <a href="https://myid.be/docs/scopes" target="_blank">Scopes</a>)</span>
+            <input name="scope" type="text" value="{{scope}}" />
+        </div>
+        <br />
+        <input type="submit" value="Login" />
+    </form>
+
+    <script defer>
+        function login(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+
+            const url = 'https://auth.myid.be/auth'
+                + `?response_type=${formData.get('response_type')}`
+                + `&client_id=${formData.get('client_id')}`
+                + `&redirect_uri=${encodeURI(formData.get('redirect_uri'))}`
+                + `&state=${formData.get('state')}`
+                + `&scope=${formData.get('scope')}`;
+
+            window.location.href = url;
+        }
+
+        const form = document.getElementById('form');
+        form.addEventListener('submit', login);
+    </script>
+</body>
+</html>

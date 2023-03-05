@@ -1,0 +1,42 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Callback User Agent Based (SPA) | myID.be samples</title>
+    <link rel="stylesheet" type="text/css" href="https://myid.be//css/site/site.css?v=GTxp2DXrrqgwncHZTiMPEwR1w8U7DuXHr5-XbH-T4D0">
+</head>
+<body>
+    <h1>myID.be - samples</h1>
+    <h2>Callback User Agent Based (SPA) | myID.be samples</h2>
+    
+    <div id="token"></div>
+
+    <script async defer>
+        async function getToken() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const codeParam = urlParams.get('code');
+
+            const url = 'https://auth.myid.be/token';
+            fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
+                mode: 'cors',
+                body: 'grant_type=authorization_code'
+                    + `&code=${codeParam}`
+                    + '&redirect_uri={{redirect_uri}}'
+                    + '&client_id={{client_id}}'
+            }).then((response) => {
+                console.log(response);
+                return response.json();
+            }).then((data) => {
+                document.getElementById('token').innerHTML = `"Success: ${JSON.stringify(data)}`;
+            }).catch((error) => {
+                document.getElementById('token').innerHTML = `"Error: ${JSON.stringify(error)}`;
+            });
+        }
+
+        getToken();
+    </script>
+</body>
+</html>
